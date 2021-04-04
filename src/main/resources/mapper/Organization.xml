@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.tyut.wrx.brain.dao.OrganizationMapper">
+    <select id="orgLogin" parameterType="Organization" resultType="Organization">
+        select * from t_org where org_name = #{orgName} AND org_pwd = #{orgPwd}
+    </select>
+</mapper>

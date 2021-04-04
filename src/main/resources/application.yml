@@ -1,0 +1,13 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql:///brain_sys?useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: edu.tyut.wrx.brain.model
