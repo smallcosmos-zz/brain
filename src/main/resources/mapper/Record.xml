@@ -3,9 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.tyut.wrx.brain.dao.RecordMapper">
-    <insert id="addRecordToDb" parameterType="Record" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertRecord" parameterType="Record" useGeneratedKeys="true" keyProperty="id">
         insert into
-        t_record(user_id,org_id,star_time,end_time,score,game_id)
+        t_record(user_id,org_id,start_time,end_time,score,game_id)
         values(#{userId},#{orgId},#{startTime},#{endTime},#{score},#{gameId})
     </insert>
+
+    <select id="selectRecord" parameterType="Record" resultType="Record">
+        select * from t_record where user_id = #{userId} and org_id = #{orgId} and game_id = #{gameId}
+    </select>
+
+    <delete id="deleteRecord" parameterType="Record">
+        delete from t_record where id = #{id}
+    </delete>
 </mapper>

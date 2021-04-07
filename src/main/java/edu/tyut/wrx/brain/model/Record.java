@@ -27,7 +27,7 @@ public class Record {
      */
     private Date startTime;
     /**
-     * .
+     *
      * 游戏完成时间
      */
     private Date endTime;
