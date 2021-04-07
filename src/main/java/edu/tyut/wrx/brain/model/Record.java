@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class Record {
     /**
-     * 游戏记录id
+     * 游戏记录id(自增，不需要传)
      */
     private Integer id;
     /**
