@@ -23,11 +23,6 @@ public class RecordController {
     @RequestMapping(value = "/addRecord",method = RequestMethod.POST)
     @ResponseBody
     public ResultVO addRecord(Record record, HttpServletRequest request) {
-        //进行登录校验
-        User currentUser = BrainUtils.getUserBySessionId(request);
-        if(null == currentUser) {
-            return ResultVO.fail("当前用户未登录");
-        }
         ResultVO resultVO = recordService.addRecordToDb(record);
         return resultVO;
     }
