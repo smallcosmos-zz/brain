@@ -8,12 +8,18 @@ import edu.tyut.wrx.brain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.UUID;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
-    public ResultVO insertUser(User user) {
+    public ResultVO insertUser(User user, HttpServletRequest request, HttpServletResponse response) {
         //校验字段是否为空
         if(null == user.getId() || user.getId().trim().length() == 0){
             return ResultVO.fail(ResultCode.VALIDATION_FAILD_CODE,"就诊卡号不能为空");
@@ -32,10 +38,18 @@ public class UserServiceImpl implements UserService {
         }
         try {
             userMapper.insertUser(user);
-            return ResultVO.success();
         } catch (Exception e) {
             e.printStackTrace();
             return ResultVO.fail("插入用户信息失败");
         }
+        HttpSession session = request.getSession();
+        String sessionId = UUID.randomUUID().toString().toLowerCase().replace("-","");
+        session.setAttribute(sessionId,user);
+        Cookie sessionid = new Cookie("USERSESSIONID", sessionId);
+        sessionid.setMaxAge(60*60);
+        sessionid.setPath("/");
+        response.addCookie(sessionid);
+        return ResultVO.success();
+
     }
 }
