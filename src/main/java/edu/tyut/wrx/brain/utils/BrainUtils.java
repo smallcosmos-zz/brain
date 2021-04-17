@@ -1,5 +1,6 @@
 package edu.tyut.wrx.brain.utils;
 
+import edu.tyut.wrx.brain.model.Organization;
 import edu.tyut.wrx.brain.model.User;
 
 import javax.servlet.http.Cookie;
@@ -26,5 +27,21 @@ public class BrainUtils {
             }
         }
         return user;
+    }
+    public static Organization getOrgBySessionId(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Organization org = null;
+        Cookie[] cookies = request.getCookies();
+        if(null == cookies || cookies.length == 0) {
+            return org;
+        }
+        else{
+            for(Cookie cookie: cookies) {
+                if("ORGSESSIONID".equals(cookie.getName())){
+                    org = (Organization) session.getAttribute(cookie.getValue());
+                }
+            }
+        }
+        return org;
     }
 }

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 机构相关操作类
  */
@@ -26,9 +29,9 @@ public class OrganizationController {
      */
     @RequestMapping( value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO orgLogin(Organization organization) {
-        ResultVO resultVO = organizationService.orgLogin(organization);
-        System.out.println(resultVO);
+    public ResultVO orgLogin(Organization organization, HttpServletRequest request, HttpServletResponse response) {
+        ResultVO resultVO = organizationService.orgLogin(organization,request,response);
+
         return resultVO;
     }
 }

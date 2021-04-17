@@ -23,6 +23,8 @@ public class RecordController {
     @RequestMapping(value = "/addRecord",method = RequestMethod.POST)
     @ResponseBody
     public ResultVO addRecord(Record record, HttpServletRequest request) {
+        record.setUserId(BrainUtils.getUserBySessionId(request).getId());
+        record.setOrgId(BrainUtils.getOrgBySessionId(request).getId());
         ResultVO resultVO = recordService.addRecordToDb(record);
         return resultVO;
     }

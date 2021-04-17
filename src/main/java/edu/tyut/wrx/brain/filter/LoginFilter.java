@@ -2,6 +2,8 @@ package edu.tyut.wrx.brain.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import edu.tyut.wrx.brain.model.Organization;
 import edu.tyut.wrx.brain.model.ResultVO;
 import edu.tyut.wrx.brain.model.User;
 import edu.tyut.wrx.brain.utils.BrainUtils;
@@ -17,15 +19,29 @@ import java.util.Map;
 public class LoginFilter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        User userBySessionId = BrainUtils.getUserBySessionId(request);
-        if(null != userBySessionId) {
-            return true;
-        }
         response.setContentType("application/json; charset=utf-8");
+        JSONObject retJsonObj = null;
+        //校验机构是否登录
+        Organization orgBySessionId = BrainUtils.getOrgBySessionId(request);
+        if(null == orgBySessionId){
+            retJsonObj = LoginFilter.getRetJsonObj("300", "当前机构账号未登录");
+            response.getWriter().println(retJsonObj);
+            return false;
+        }
+        //验证用户是否提交信息
+        User userBySessionId = BrainUtils.getUserBySessionId(request);
+        if (null == userBySessionId) {
+            retJsonObj = LoginFilter.getRetJsonObj("300", "当前用户未提交信息");
+            response.getWriter().println(retJsonObj);
+            return false;
+        }
+        return true;
+    }
+
+    private static JSONObject getRetJsonObj(String code,String msg) {
         Map<String, Object> map = new HashMap<>();
-        map.put("300","当前用户未登录");
+        map.put(code,msg);
         JSONObject jsonObject = new JSONObject(map);
-        response.getWriter().println(jsonObject);
-        return false;
+        return jsonObject;
     }
 }

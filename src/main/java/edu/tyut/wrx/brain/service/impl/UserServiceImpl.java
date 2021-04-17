@@ -50,6 +50,5 @@ public class UserServiceImpl implements UserService {
         sessionid.setPath("/");
         response.addCookie(sessionid);
         return ResultVO.success();
-
     }
 }
