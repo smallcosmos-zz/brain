@@ -29,6 +29,9 @@ public class LoginFilter implements HandlerInterceptor {
             return false;
         }
         //验证用户是否提交信息
+        if(request.getRequestURI().equals("/edu/queryAll")){
+            return true;
+        }
         User userBySessionId = BrainUtils.getUserBySessionId(request);
         if (null == userBySessionId) {
             retJsonObj = LoginFilter.getRetJsonObj("300", "当前用户未提交信息");
