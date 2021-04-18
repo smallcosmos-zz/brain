@@ -28,10 +28,11 @@ public class LoginFilter implements HandlerInterceptor {
             response.getWriter().println(retJsonObj);
             return false;
         }
-        //验证用户是否提交信息
-        if(request.getRequestURI().equals("/edu/queryAll")){
+        //这两个请求只需要机构登录不需要用户提交信息
+        if(request.getRequestURI().equals("/edu/queryAll") || request.getRequestURI().equals("/record/getAllRecord")){
             return true;
         }
+        //验证用户是否提交信息
         User userBySessionId = BrainUtils.getUserBySessionId(request);
         if (null == userBySessionId) {
             retJsonObj = LoginFilter.getRetJsonObj("300", "当前用户未提交信息");
