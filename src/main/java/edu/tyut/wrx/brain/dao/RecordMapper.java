@@ -1,7 +1,12 @@
 package edu.tyut.wrx.brain.dao;
 
 import edu.tyut.wrx.brain.model.Record;
+import edu.tyut.wrx.brain.model.RecordDTO;
+import edu.tyut.wrx.brain.model.gameAndScore;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface RecordMapper {
@@ -10,4 +15,8 @@ public interface RecordMapper {
     Record selectRecord(Record record);
 
     void deleteRecord(Record record);
+
+    List<RecordDTO> getAllRecord(@Param("orgId") Integer orgId);
+
+    List<gameAndScore> getGameAndScoreByUserId(@Param("userId") String id);
 }

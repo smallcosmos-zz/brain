@@ -1,13 +1,15 @@
 package edu.tyut.wrx.brain.service.impl;
 
 import edu.tyut.wrx.brain.dao.RecordMapper;
-import edu.tyut.wrx.brain.model.Record;
-import edu.tyut.wrx.brain.model.ResultCode;
-import edu.tyut.wrx.brain.model.ResultVO;
+import edu.tyut.wrx.brain.model.*;
 import edu.tyut.wrx.brain.service.RecordService;
+import edu.tyut.wrx.brain.utils.BrainUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -51,5 +53,16 @@ public class RecordServiceImpl implements RecordService {
             return ResultVO.fail("插入游戏记录失败");
         }
         return ResultVO.success();
+    }
+
+    @Override
+    public List<RecordDTO> getAllRecord(HttpServletRequest request) {
+        Organization orgBySessionId = BrainUtils.getOrgBySessionId(request);
+        List<RecordDTO> allRecord = recordMapper.getAllRecord(orgBySessionId.getId());
+        for (RecordDTO r : allRecord) {
+            List<gameAndScore> gameAndScores = recordMapper.getGameAndScoreByUserId(r.getUser().getId());
+            r.setGameAndScores(gameAndScores);
+        }
+        return allRecord;
     }
 }

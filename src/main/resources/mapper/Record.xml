@@ -16,4 +16,38 @@
     <delete id="deleteRecord" parameterType="Record">
         delete from t_record where id = #{id}
     </delete>
+
+    <resultMap id="RecordDTOMap" type="RecordDTO">
+        <id column="rid" property="id"></id>
+        <result column="gameDate" property="gameDate"></result>
+        <association property="user" javaType="User">
+            <id property="id" column="uid"></id>
+            <result property="userName" column="userName"></result>
+            <result property="userAge" column="userAge"></result>
+            <result property="userGender" column="userGender"></result>
+            <result property="userEduLevel" column="userEduLevel"></result>
+            <result property="note" column="note"></result>
+        </association>
+<!--        <collection property="gameAndScores" javaType="gameAndScore">-->
+<!--            <result property="gameName" column="gameName"></result>-->
+<!--            <result property="score" column="score"></result>-->
+<!--        </collection>-->
+    </resultMap>
+    <select id="getAllRecord" parameterType="Integer" resultMap="RecordDTOMap">
+        select
+        r.id rid,r.start_time gameDate,u.id uid,u.user_name userName,u.user_age userAge,u.user_gender userGender,u.user_edu_level userEduLevel,u.note note
+        from t_record r, t_user u
+        where
+        r.user_id = u.id
+        and
+        r.org_id = #{orgId}
+        group by uid
+    </select>
+
+    <select id="getGameAndScoreByUserId" parameterType="String" resultType="gameAndScore">
+        SELECT g.game_name gameName,r.score score
+        from t_record r,t_game g
+        where r.game_id = g.id
+        and r.user_id = #{userId};
+    </select>
 </mapper>

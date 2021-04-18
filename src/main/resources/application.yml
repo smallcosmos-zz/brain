@@ -13,3 +13,4 @@ mybatis:
   type-aliases-package: edu.tyut.wrx.brain.model
   configuration:
     map-underscore-to-camel-case: true
+
