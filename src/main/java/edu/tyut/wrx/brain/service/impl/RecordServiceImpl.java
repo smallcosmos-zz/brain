@@ -1,5 +1,6 @@
 package edu.tyut.wrx.brain.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import edu.tyut.wrx.brain.dao.RecordMapper;
 import edu.tyut.wrx.brain.model.*;
 import edu.tyut.wrx.brain.service.RecordService;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -64,6 +68,10 @@ public class RecordServiceImpl implements RecordService {
         for (RecordDTO r : allRecord) {
             List<gameAndScore> gameAndScores = recordMapper.getGameAndScoreByUserId(r.getUser().getId());
             r.setGameAndScores(gameAndScores);
+            Date gameDate = r.getGameDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String format = dateFormat.format(gameDate);
+            r.setGameDateStr(format);
         }
         return allRecord;
     }

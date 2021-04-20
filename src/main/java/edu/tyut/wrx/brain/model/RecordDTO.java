@@ -24,6 +24,11 @@ public class RecordDTO {
      */
     private Date gameDate;
 
+    /**
+     * 日期-字符串 yyyy-MM-dd HH:mm:ss
+     */
+    private String gameDateStr;
+
     public RecordDTO() {
     }
 
@@ -62,6 +67,7 @@ public class RecordDTO {
                 ", user=" + user +
                 ", gameAndScores=" + gameAndScores +
                 ", gameDate=" + gameDate +
+                ", gameDateStr='" + gameDateStr + '\'' +
                 '}';
     }
 
@@ -75,5 +81,13 @@ public class RecordDTO {
 
     public void setGameDate(Date gameDate) {
         this.gameDate = gameDate;
+    }
+
+    public String getGameDateStr() {
+        return gameDateStr;
+    }
+
+    public void setGameDateStr(String gameDateStr) {
+        this.gameDateStr = gameDateStr;
     }
 }
