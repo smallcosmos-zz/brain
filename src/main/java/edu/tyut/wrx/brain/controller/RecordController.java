@@ -1,9 +1,7 @@
 package edu.tyut.wrx.brain.controller;
 
-import edu.tyut.wrx.brain.model.Record;
-import edu.tyut.wrx.brain.model.RecordDTO;
-import edu.tyut.wrx.brain.model.ResultVO;
-import edu.tyut.wrx.brain.model.User;
+import edu.tyut.wrx.brain.model.*;
+import edu.tyut.wrx.brain.service.AdminService;
 import edu.tyut.wrx.brain.service.RecordService;
 import edu.tyut.wrx.brain.utils.BrainUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,9 @@ public class RecordController {
     @Autowired
     RecordService recordService;
 
+    @Autowired
+    AdminService adminService;
+
     @RequestMapping(value = "/addRecord",method = RequestMethod.POST)
     @ResponseBody
     public ResultVO addRecord(Record record, HttpServletRequest request) {
@@ -33,9 +34,16 @@ public class RecordController {
     
     @RequestMapping("/getAllRecord")
     @ResponseBody
-    public ResultVO getAllRecord(HttpServletRequest request) {
+    public ResultVO getAllRecord(String password,HttpServletRequest request) {
+        ResultVO ret = null;
+        //先判断密码是否正确在进行查询数据
+        Admin admin = adminService.selectAdmin(password);
+        if(admin == null) {
+            ret = ResultVO.fail("二级密码不正确");
+            return ret;
+        }
         List<RecordDTO> allRecord = recordService.getAllRecord(request);
-        ResultVO ret = ResultVO.fail("未查询到记录");
+        ret = ResultVO.fail("未查询到记录");
         if(allRecord != null) {
             ret = ResultVO.success(allRecord);
         }
