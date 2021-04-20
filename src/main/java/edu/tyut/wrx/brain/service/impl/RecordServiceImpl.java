@@ -43,12 +43,14 @@ public class RecordServiceImpl implements RecordService {
             return ResultVO.fail(ResultCode.VALIDATION_FAILD_CODE,"游戏得分不能为空");
         }
         //插入之前进行校验，如果已经存在该患者的这个游戏记录则先进行删除
-        Record dbRecord = recordMapper.selectRecord(record);
-        if(null != dbRecord){
-            recordMapper.deleteRecord(dbRecord);
+        synchronized (this) {
+            Record dbRecord = recordMapper.selectRecord(record);
+            if(null != dbRecord){
+                recordMapper.deleteRecord(dbRecord);
+            }
+            //插入游戏记录
+            recordMapper.insertRecord(record);
         }
-        //插入游戏记录
-        recordMapper.insertRecord(record);
         if(null == record.getId()){
             return ResultVO.fail("插入游戏记录失败");
         }
