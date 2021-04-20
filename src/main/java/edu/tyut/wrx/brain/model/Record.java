@@ -49,6 +49,15 @@ public class Record {
         this.score = score;
     }
 
+    public Record(String userId, Integer orgId, Integer gameId, Date startTime, Date endTime, Integer score) {
+        this.userId = userId;
+        this.orgId = orgId;
+        this.gameId = gameId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.score = score;
+    }
+
     public Integer getId() {
         return id;
     }
