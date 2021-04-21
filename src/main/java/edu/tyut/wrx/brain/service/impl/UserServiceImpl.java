@@ -6,6 +6,7 @@ import edu.tyut.wrx.brain.model.ResultVO;
 import edu.tyut.wrx.brain.model.User;
 import edu.tyut.wrx.brain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -36,10 +37,15 @@ public class UserServiceImpl implements UserService {
         if(null == user.getUserEduLevel() || user.getUserEduLevel() < 0 || user.getUserEduLevel() > 8){
             return ResultVO.fail(ResultCode.VALIDATION_FAILD_CODE,"教育水平校验失败");
         }
+        if(user.getUserAge() > 0 && user.getUserAge() < 120) {
+            return ResultVO.fail(ResultCode.VALIDATION_FAILD_CODE,"患者年龄范围不正确");
+        }
         try {
             userMapper.insertUser(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            if(e instanceof DuplicateKeyException) {
+                return ResultVO.fail("就诊卡号不能重复");
+            }
             return ResultVO.fail("插入用户信息失败");
         }
         HttpSession session = request.getSession();

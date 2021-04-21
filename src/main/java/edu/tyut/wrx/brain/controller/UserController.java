@@ -31,7 +31,7 @@ public class UserController {
     public ResultVO addUser(User user, HttpServletRequest request, HttpServletResponse response) {
         ResultVO resultVO = userService.insertUser(user,request,response);
         if(resultVO.getCode() == 200) {
-            String userBySessionId = BrainUtils.getUserBySessionId(request).getId();
+            String userBySessionId = user.getId();
             Integer orgBySessionId = BrainUtils.getOrgBySessionId(request).getId();
             Date startTime = new Date();
             Date endTime = new Date();
@@ -42,7 +42,6 @@ public class UserController {
             recordController.addRecord(record2,request);
             recordController.addRecord(record3,request);
         }
-
         return resultVO;
     }
 }

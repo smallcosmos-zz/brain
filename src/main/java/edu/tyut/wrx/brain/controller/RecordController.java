@@ -36,6 +36,10 @@ public class RecordController {
     @ResponseBody
     public ResultVO getAllRecord(String password,HttpServletRequest request) {
         ResultVO ret = null;
+        if(null == password || password.trim().equals("")) {
+            ret = ResultVO.fail("二级密码不能为空");
+            return ret;
+        }
         //先判断密码是否正确在进行查询数据
         Admin admin = adminService.selectAdmin(password);
         if(admin == null) {
