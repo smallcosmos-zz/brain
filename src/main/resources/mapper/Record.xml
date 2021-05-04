@@ -4,17 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.tyut.wrx.brain.dao.RecordMapper">
     <insert id="insertRecord" parameterType="Record" useGeneratedKeys="true" keyProperty="id">
-        insert into
-        t_record(user_id,org_id,start_time,end_time,score,game_id)
-        values(#{userId},#{orgId},#{startTime},#{endTime},#{score},#{gameId})
+        insert into t_record(user_id, org_id, start_time, end_time, score, game_id)
+        values (#{userId}, #{orgId}, #{startTime}, #{endTime}, #{score}, #{gameId})
     </insert>
 
     <select id="selectRecord" parameterType="Record" resultType="Record">
-        select * from t_record where user_id = #{userId} and org_id = #{orgId} and game_id = #{gameId}
+        select *
+        from t_record
+        where user_id = #{userId}
+          and org_id = #{orgId}
+          and game_id = #{gameId}
     </select>
 
     <delete id="deleteRecord" parameterType="Record">
-        delete from t_record where id = #{id}
+        delete
+        from t_record
+        where id = #{id}
     </delete>
 
     <resultMap id="RecordDTOMap" type="RecordDTO">
@@ -28,26 +33,49 @@
             <result property="userEduLevel" column="userEduLevel"></result>
             <result property="note" column="note"></result>
         </association>
-<!--        <collection property="gameAndScores" javaType="gameAndScore">-->
-<!--            <result property="gameName" column="gameName"></result>-->
-<!--            <result property="score" column="score"></result>-->
-<!--        </collection>-->
+        <!--        <collection property="gameAndScores" javaType="gameAndScore">-->
+        <!--            <result property="gameName" column="gameName"></result>-->
+        <!--            <result property="score" column="score"></result>-->
+        <!--        </collection>-->
     </resultMap>
     <select id="getAllRecord" parameterType="Integer" resultMap="RecordDTOMap">
-        select
-        r.id rid,r.start_time gameDate,u.id uid,u.user_name userName,u.user_age userAge,u.user_gender userGender,u.user_edu_level userEduLevel,u.note note
-        from t_record r, t_user u
-        where
-        r.user_id = u.id
-        and
-        r.org_id = #{orgId}
+        select r.id             rid,
+               r.start_time     gameDate,
+               u.id             uid,
+               u.user_name      userName,
+               u.user_age       userAge,
+               u.user_gender    userGender,
+               u.user_edu_level userEduLevel,
+               u.note           note
+        from t_record r,
+             t_user u
+        where r.user_id = u.id
+          and r.org_id = #{orgId}
         group by uid
     </select>
 
     <select id="getGameAndScoreByUserId" parameterType="String" resultType="gameAndScore">
-        SELECT g.game_name gameName,r.score score
-        from t_record r,t_game g
+        SELECT g.game_name gameName, r.score score
+        from t_record r,
+             t_game g
         where r.game_id = g.id
-        and r.user_id = #{userId};
+          and r.user_id = #{userId};
+    </select>
+
+    <select id="getRecordByUserId"  resultMap="RecordDTOMap">
+        select r.id             rid,
+               r.start_time     gameDate,
+               u.id             uid,
+               u.user_name      userName,
+               u.user_age       userAge,
+               u.user_gender    userGender,
+               u.user_edu_level userEduLevel,
+               u.note           note
+        from t_record r,
+             t_user u
+        where r.user_id = u.id
+          and r.user_id = #{userId}
+          and r.org_id = #{orgId}
+        group by uid
     </select>
 </mapper>

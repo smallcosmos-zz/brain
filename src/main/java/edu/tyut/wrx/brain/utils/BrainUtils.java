@@ -1,5 +1,6 @@
 package edu.tyut.wrx.brain.utils;
 
+import edu.tyut.wrx.brain.model.Admin;
 import edu.tyut.wrx.brain.model.Organization;
 import edu.tyut.wrx.brain.model.User;
 
@@ -28,6 +29,7 @@ public class BrainUtils {
         }
         return user;
     }
+
     public static Organization getOrgBySessionId(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Organization org = null;
@@ -43,5 +45,22 @@ public class BrainUtils {
             }
         }
         return org;
+    }
+
+    public static Admin getAdminBySessionId(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Admin admin = null;
+        Cookie[] cookies = request.getCookies();
+        if(null == cookies || cookies.length == 0) {
+            return admin;
+        }
+        else{
+            for(Cookie cookie: cookies) {
+                if("ADMINSESSIONID".equals(cookie.getName())){
+                    admin = (Admin) session.getAttribute(cookie.getValue());
+                }
+            }
+        }
+        return admin;
     }
 }

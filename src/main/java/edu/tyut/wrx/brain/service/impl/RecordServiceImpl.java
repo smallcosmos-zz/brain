@@ -64,14 +64,32 @@ public class RecordServiceImpl implements RecordService {
     public List<RecordDTO> getAllRecord(HttpServletRequest request) {
         Organization orgBySessionId = BrainUtils.getOrgBySessionId(request);
         List<RecordDTO> allRecord = recordMapper.getAllRecord(orgBySessionId.getId());
-        for (RecordDTO r : allRecord) {
-            List<gameAndScore> gameAndScores = recordMapper.getGameAndScoreByUserId(r.getUser().getId());
-            r.setGameAndScores(gameAndScores);
-            Date gameDate = r.getGameDate();
+        if(allRecord != null && allRecord.size() > 0) {
+            for (RecordDTO r : allRecord) {
+                List<gameAndScore> gameAndScores = recordMapper.getGameAndScoreByUserId(r.getUser().getId());
+                r.setGameAndScores(gameAndScores);
+                Date gameDate = r.getGameDate();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String format = dateFormat.format(gameDate);
+                r.setGameDateStr(format);
+            }
+        }
+
+        return allRecord;
+    }
+
+    @Override
+    public RecordDTO getRecordByUserId(String userId, HttpServletRequest request) {
+        Organization orgBySessionId = BrainUtils.getOrgBySessionId(request);
+        RecordDTO recordDTO = recordMapper.getRecordByUserId(userId,orgBySessionId.getId());
+        if(recordDTO != null) {
+            List<gameAndScore> gameAndScoreByUserId = recordMapper.getGameAndScoreByUserId(recordDTO.getUser().getId());
+            recordDTO.setGameAndScores(gameAndScoreByUserId);
+            Date gameDate = recordDTO.getGameDate();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String format = dateFormat.format(gameDate);
-            r.setGameDateStr(format);
+            recordDTO.setGameDateStr(format);
         }
-        return allRecord;
+        return recordDTO;
     }
 }

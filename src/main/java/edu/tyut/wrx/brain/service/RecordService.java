@@ -12,4 +12,6 @@ public interface RecordService {
     ResultVO addRecordToDb(Record record);
 
     List<RecordDTO> getAllRecord(HttpServletRequest request);
+
+    RecordDTO getRecordByUserId(String userId, HttpServletRequest request);
 }

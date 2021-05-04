@@ -3,6 +3,7 @@ package edu.tyut.wrx.brain.filter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
+import edu.tyut.wrx.brain.model.Admin;
 import edu.tyut.wrx.brain.model.Organization;
 import edu.tyut.wrx.brain.model.ResultVO;
 import edu.tyut.wrx.brain.model.User;
@@ -29,7 +30,16 @@ public class LoginFilter implements HandlerInterceptor {
             return false;
         }
         //这两个请求只需要机构登录不需要用户提交信息
-        if(request.getRequestURI().equals("/edu/queryAll") || request.getRequestURI().equals("/record/getAllRecord")){
+        if(request.getRequestURI().equals("/edu/queryAll")){
+            return true;
+        }
+        if(request.getRequestURI().startsWith("/record")) {
+            Admin adminBySessionId = BrainUtils.getAdminBySessionId(request);
+            if(null == adminBySessionId) {
+                retJsonObj = LoginFilter.getRetJsonObj("300", "admin未登录");
+                response.getWriter().println(retJsonObj);
+                return false;
+            }
             return true;
         }
         //验证用户是否提交信息

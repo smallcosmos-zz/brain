@@ -53,4 +53,15 @@ public class RecordController {
         }
         return ret;
     }
+
+    @RequestMapping("/getRecordByUserId")
+    @ResponseBody
+    public ResultVO getRecordByUserId(String userId, HttpServletRequest request) {
+        ResultVO ret = ResultVO.fail();
+        RecordDTO record = recordService.getRecordByUserId(userId, request);
+        if(record != null) {
+            ret = ResultVO.success(record);
+        }
+        return ret;
+    }
 }

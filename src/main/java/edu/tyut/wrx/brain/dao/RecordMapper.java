@@ -19,4 +19,6 @@ public interface RecordMapper {
     List<RecordDTO> getAllRecord(@Param("orgId") Integer orgId);
 
     List<gameAndScore> getGameAndScoreByUserId(@Param("userId") String id);
+
+    RecordDTO getRecordByUserId(@Param("userId") String userId, @Param("orgId") Integer orgId);
 }
