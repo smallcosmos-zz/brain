@@ -12,7 +12,6 @@ public class BrainGlobalConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginFilter())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/organization/login")
-                .excludePathPatterns("/user/addUser")
-                .excludePathPatterns("/admin/login");
+                .excludePathPatterns("/user/addUser");
     }
 }

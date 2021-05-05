@@ -30,7 +30,9 @@ public class LoginFilter implements HandlerInterceptor {
             return false;
         }
         //这两个请求只需要机构登录不需要用户提交信息
-        if(request.getRequestURI().equals("/edu/queryAll") || request.getRequestURI().equals("/game/getGameByName")){
+        if(request.getRequestURI().equals("/edu/queryAll")
+                || request.getRequestURI().equals("/game/getGameByName")
+                || request.getRequestURI().equals("/admin/login")) {
             return true;
         }
         if(request.getRequestURI().startsWith("/record")) {

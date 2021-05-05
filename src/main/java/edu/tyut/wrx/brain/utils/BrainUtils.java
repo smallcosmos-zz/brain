@@ -13,54 +13,34 @@ import javax.servlet.http.HttpSession;
  */
 public class BrainUtils {
 
+    private static final String USER_SESSIONID = "USERSESSIONID";
+    private static final String ORG_SESSIONID = "ORGSESSIONID";
+    private static final String ADMIN_SESSIONID = "ADMINSESSIONID";
+
     public static User getUserBySessionId(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(null == cookies || cookies.length == 0) {
-            return user;
-        }
-        else{
-            for(Cookie cookie: cookies) {
-                if("USERSESSIONID".equals(cookie.getName())){
-                    user = (User) session.getAttribute(cookie.getValue());
-                }
-            }
-        }
-        return user;
+        return (User)getObjFromCookies(USER_SESSIONID, request);
     }
 
     public static Organization getOrgBySessionId(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Organization org = null;
-        Cookie[] cookies = request.getCookies();
-        if(null == cookies || cookies.length == 0) {
-            return org;
-        }
-        else{
-            for(Cookie cookie: cookies) {
-                if("ORGSESSIONID".equals(cookie.getName())){
-                    org = (Organization) session.getAttribute(cookie.getValue());
-                }
-            }
-        }
-        return org;
+        return (Organization) getObjFromCookies(ORG_SESSIONID,request);
     }
 
     public static Admin getAdminBySessionId(HttpServletRequest request) {
+        return (Admin)getObjFromCookies(ADMIN_SESSIONID,request);
+    }
+
+    public static Object getObjFromCookies(String sessionId, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Admin admin = null;
+        Object obj = null;
         Cookie[] cookies = request.getCookies();
         if(null == cookies || cookies.length == 0) {
-            return admin;
+            return obj;
         }
-        else{
-            for(Cookie cookie: cookies) {
-                if("ADMINSESSIONID".equals(cookie.getName())){
-                    admin = (Admin) session.getAttribute(cookie.getValue());
-                }
+        for(Cookie cookie: cookies) {
+            if(sessionId.equals(cookie.getName())){
+                obj =  session.getAttribute(cookie.getValue());
             }
         }
-        return admin;
+        return obj;
     }
 }
