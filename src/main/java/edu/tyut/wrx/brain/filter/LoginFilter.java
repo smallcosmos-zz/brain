@@ -35,7 +35,7 @@ public class LoginFilter implements HandlerInterceptor {
                 || request.getRequestURI().equals("/admin/login")) {
             return true;
         }
-        if(request.getRequestURI().startsWith("/record")) {
+        if(request.getRequestURI().startsWith("/record") && !request.getRequestURI().trim().equals("/record/addRecord")) {
             Admin adminBySessionId = BrainUtils.getAdminBySessionId(request);
             if(null == adminBySessionId) {
                 retJsonObj = LoginFilter.getRetJsonObj("300", "admin未登录");
