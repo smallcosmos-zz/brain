@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         if(null == user.getUserEduLevel() || user.getUserEduLevel() < 0 || user.getUserEduLevel() > 8){
             return ResultVO.fail(ResultCode.VALIDATION_FAILD_CODE,"教育水平校验失败");
         }
-        if(user.getUserAge() < 0 && user.getUserAge() > 120) {
+        if(user.getUserAge() < 0 || user.getUserAge() > 120) {
             return ResultVO.fail(ResultCode.VALIDATION_FAILD_CODE,"患者年龄范围不正确");
         }
         try {
