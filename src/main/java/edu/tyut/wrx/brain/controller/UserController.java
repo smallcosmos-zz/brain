@@ -36,12 +36,16 @@ public class UserController {
             Integer orgBySessionId = BrainUtils.getOrgBySessionId(request).getId();
             Date startTime = new Date();
             Date endTime = new Date();
-            Record record1 = new Record(userBySessionId,orgBySessionId,1,startTime,endTime,0);
-            Record record2 = new Record(userBySessionId,orgBySessionId,2,startTime,endTime,0);
-            Record record3 = new Record(userBySessionId,orgBySessionId,3,startTime,endTime,0);
+            Record record1 = new Record(userBySessionId,orgBySessionId,1,startTime,endTime,0,0,0,0L);
+            Record record2 = new Record(userBySessionId,orgBySessionId,2,startTime,endTime,0,0,0,0L);
+            Record record3 = new Record(userBySessionId,orgBySessionId,3,startTime,endTime,0,0,0,0L);
+            Record record4 = new Record(userBySessionId,orgBySessionId,4,startTime,endTime,0,0,0,0L);
+            Record record5 = new Record(userBySessionId,orgBySessionId,5,startTime,endTime,0,0,0,0L);
             recordService.addRecordToDb(record1);
             recordService.addRecordToDb(record2);
             recordService.addRecordToDb(record3);
+            recordService.addRecordToDb(record4);
+            recordService.addRecordToDb(record5);
         }
         return resultVO;
     }

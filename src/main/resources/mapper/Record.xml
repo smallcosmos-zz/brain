@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.tyut.wrx.brain.dao.RecordMapper">
     <insert id="insertRecord" parameterType="Record" useGeneratedKeys="true" keyProperty="id">
-        insert into t_record(user_id, org_id, start_time, end_time, score, game_id)
-        values (#{userId}, #{orgId}, #{startTime}, #{endTime}, #{score}, #{gameId})
+        insert into t_record(user_id, org_id, start_time, end_time, score, game_id,correct_num,error_num,game_time)
+        values (#{userId}, #{orgId}, #{startTime}, #{endTime}, #{score}, #{gameId}, #{correctNum},#{errorNum}, #{gameTime})
     </insert>
 
     <select id="selectRecord" parameterType="Record" resultType="Record">

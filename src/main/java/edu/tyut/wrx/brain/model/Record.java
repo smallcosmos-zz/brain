@@ -36,26 +36,34 @@ public class Record {
      */
     private Integer score;
 
+    /**
+     * 正确个数
+     */
+    private int correctNum;
+
+    /**
+     * 错误个数
+     */
+    private int errorNum;
+
+    /**
+     * 游戏时长
+     */
+    private Long gameTime;
+
     public Record() {
     }
 
-    public Record(Integer id, String userId, Integer orgId, Integer gameId, Date startTime, Date endTime, Integer score) {
-        this.id = id;
+    public Record(String userId, Integer orgId, Integer gameId, Date startTime, Date endTime, Integer score, int correctNum, int errorNum, Long gameTime) {
         this.userId = userId;
         this.orgId = orgId;
         this.gameId = gameId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.score = score;
-    }
-
-    public Record(String userId, Integer orgId, Integer gameId, Date startTime, Date endTime, Integer score) {
-        this.userId = userId;
-        this.orgId = orgId;
-        this.gameId = gameId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.score = score;
+        this.correctNum = correctNum;
+        this.errorNum = errorNum;
+        this.gameTime = gameTime;
     }
 
     public Integer getId() {
@@ -112,5 +120,29 @@ public class Record {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public int getCorrectNum() {
+        return correctNum;
+    }
+
+    public void setCorrectNum(int correctNum) {
+        this.correctNum = correctNum;
+    }
+
+    public int getErrorNum() {
+        return errorNum;
+    }
+
+    public void setErrorNum(int errorNum) {
+        this.errorNum = errorNum;
+    }
+
+    public Long getGameTime() {
+        return gameTime;
+    }
+
+    public void setGameTime(Long gameTime) {
+        this.gameTime = gameTime;
     }
 }
