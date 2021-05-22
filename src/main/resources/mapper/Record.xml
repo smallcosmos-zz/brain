@@ -54,8 +54,15 @@
         group by uid
     </select>
 
-    <select id="getGameAndScoreByUserId" parameterType="String" resultType="gameAndScore">
-        SELECT g.game_name gameName, r.score score
+    <resultMap id="gameAndScoreMap" type="gameAndScore">
+        <result column="gameName" property="gameName"></result>
+        <result column="score" property="score"></result>
+        <result column="correctNum" property="correctNum"></result>
+        <result column="errorNum" property="errorNum"></result>
+        <result column="gameTime" property="gameTime"></result>
+    </resultMap>
+    <select id="getGameAndScoreByUserId" parameterType="String" resultMap="gameAndScoreMap">
+        SELECT g.game_name gameName, r.score score, r.correct_time correctNum, r.error_time errorNum, r.game_time gameTime
         from t_record r,
              t_game g
         where r.game_id = g.id
